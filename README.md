@@ -12,11 +12,13 @@ Mimo is a text-only model. When used with Claude Code, the history may contain i
 
 2. Configure your Claude Code (`~/.claude/settings.json`):
 
+按量付费 (Pay-as-you-go)，API Key 格式 `sk-xxxxx`：
+
 ```json
 {
   "env": {
     "ANTHROPIC_BASE_URL": "http://127.0.0.1:15722",
-    "ANTHROPIC_AUTH_TOKEN": "your-mimo-api-key",
+    "ANTHROPIC_AUTH_TOKEN": "sk-xxxxx",
     "ANTHROPIC_MODEL": "mimo-v2.5-pro",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "mimo-v2.5-pro",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "mimo-v2.5-pro",
@@ -25,7 +27,23 @@ Mimo is a text-only model. When used with Claude Code, the history may contain i
 }
 ```
 
-> `ANTHROPIC_AUTH_TOKEN` 填你在 Mimo 平台获取的 API Key。
+Token Plan (订阅套餐)，API Key 格式 `tp-xxxxx`：
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:15722",
+    "ANTHROPIC_AUTH_TOKEN": "tp-xxxxx",
+    "ANTHROPIC_MODEL": "mimo-v2.5-pro",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "mimo-v2.5-pro",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "mimo-v2.5-pro",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "mimo-v2.5-pro"
+  }
+}
+```
+
+> 前往 [Mimo 平台](https://platform.xiaomimimo.com) 获取你的 API Key。
+> Token Plan 用户启动代理时需额外指定 API 地址（见下方环境变量）。
 
 3. Start the proxy:
 
@@ -48,20 +66,20 @@ python control.py
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `MIMO_PROXY_PORT` | `15722` | Local port the proxy listens on |
-| `MIMO_API_BASE` | `https://api.xiaomimimo.com/anthropic` | Target API endpoint (see below) |
+| `MIMO_API_BASE` | `https://token-plan-cn.xiaomimimo.com/anthropic` | Target API endpoint (see below) |
 | `MIMO_PROXY_LOG` | `./proxy.log` | Log file path |
 
-**`MIMO_API_BASE` depends on your Mimo subscription type:**
+**`MIMO_API_BASE` — 按量付费用户需要切换：**
 
-| Subscription | Base URL | API Key format |
-|---|---|---|
-| Pay-as-you-go (按量付费) | `https://api.xiaomimimo.com/anthropic` | `sk-xxxxx` |
-| Token Plan (订阅套餐) | `https://token-plan-cn.xiaomimimo.com/anthropic` | `tp-xxxxx` |
+| Subscription | Base URL |
+|---|---|
+| Token Plan (默认) | `https://token-plan-cn.xiaomimimo.com/anthropic` |
+| Pay-as-you-go | `https://api.xiaomimimo.com/anthropic` |
 
-Set via environment variable:
+按量付费用户启动代理时指定：
 
 ```bash
-set MIMO_API_BASE=https://token-plan-cn.xiaomimimo.com/anthropic
+set MIMO_API_BASE=https://api.xiaomimimo.com/anthropic
 python proxy.py
 ```
 
