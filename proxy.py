@@ -14,7 +14,7 @@ from datetime import datetime
 LISTEN_PORT = int(os.environ.get("MIMO_PROXY_PORT", "15722"))
 MIMO_BASE = os.environ.get(
     "MIMO_API_BASE",
-    "https://token-plan-cn.xiaomimimo.com/anthropic",
+    "https://api.xiaomimimo.com/anthropic",
 )
 LOG_PATH = os.environ.get(
     "MIMO_PROXY_LOG",

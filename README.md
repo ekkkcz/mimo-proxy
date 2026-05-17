@@ -25,6 +25,8 @@ Mimo is a text-only model. When used with Claude Code, the history may contain i
 }
 ```
 
+> `ANTHROPIC_AUTH_TOKEN` 填你在 Mimo 平台获取的 API Key。
+
 3. Start the proxy:
 
 ```bash
@@ -46,8 +48,22 @@ python control.py
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `MIMO_PROXY_PORT` | `15722` | Local port the proxy listens on |
-| `MIMO_API_BASE` | `https://token-plan-cn.xiaomimimo.com/anthropic` | Target API endpoint |
+| `MIMO_API_BASE` | `https://api.xiaomimimo.com/anthropic` | Target API endpoint (see below) |
 | `MIMO_PROXY_LOG` | `./proxy.log` | Log file path |
+
+**`MIMO_API_BASE` depends on your Mimo subscription type:**
+
+| Subscription | Base URL | API Key format |
+|---|---|---|
+| Pay-as-you-go (按量付费) | `https://api.xiaomimimo.com/anthropic` | `sk-xxxxx` |
+| Token Plan (订阅套餐) | `https://token-plan-cn.xiaomimimo.com/anthropic` | `tp-xxxxx` |
+
+Set via environment variable:
+
+```bash
+set MIMO_API_BASE=https://token-plan-cn.xiaomimimo.com/anthropic
+python proxy.py
+```
 
 ## How It Works
 
