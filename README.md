@@ -10,48 +10,25 @@ Mimo is a text-only model. When used with Claude Code, the history may contain i
 
 1. Clone or download this repo
 
-2. Configure your Claude Code (`~/.claude/settings.json`):
+2. 复制对应的 `config.json`（已附带，按需替换）：
 
-按量付费 (Pay-as-you-go)，API Key 格式 `sk-xxxxx`：
+   - **Token Plan** → 直接用默认的 [`config.json`](config.json)
+   - **按量付费** → 用 [`config-pay-as-you-go.json`](config-pay-as-you-go.json)，复制一份改名为 `config.json`
 
-```json
-{
-  "env": {
-    "ANTHROPIC_BASE_URL": "http://127.0.0.1:15722",
-    "ANTHROPIC_AUTH_TOKEN": "sk-xxxxx",
-    "ANTHROPIC_MODEL": "mimo-v2.5-pro",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "mimo-v2.5-pro",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "mimo-v2.5-pro",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "mimo-v2.5-pro"
-  }
-}
-```
+3. 复制对应的 Claude Code 配置到 `~/.claude/settings.json`：
 
-Token Plan (订阅套餐)，API Key 格式 `tp-xxxxx`：
+   - **Token Plan**：[`claude-code-settings-token-plan.json`](claude-code-settings-token-plan.json)
+   - **按量付费**：[`claude-code-settings-pay-as-you-go.json`](claude-code-settings-pay-as-you-go.json)
 
-```json
-{
-  "env": {
-    "ANTHROPIC_BASE_URL": "http://127.0.0.1:15722",
-    "ANTHROPIC_AUTH_TOKEN": "tp-xxxxx",
-    "ANTHROPIC_MODEL": "mimo-v2.5-pro",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "mimo-v2.5-pro",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "mimo-v2.5-pro",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "mimo-v2.5-pro"
-  }
-}
-```
+   替换其中的 `tp-your-token-plan-key` 或 `sk-your-api-key` 为你在 [Mimo 平台](https://platform.xiaomimimo.com) 获取的 API Key。
 
-> 前往 [Mimo 平台](https://platform.xiaomimimo.com) 获取你的 API Key。
-> Token Plan 用户启动代理时需额外指定 API 地址（见下方环境变量）。
-
-3. Start the proxy:
+4. Start the proxy:
 
 ```bash
 python proxy.py
 ```
 
-4. Use Claude Code normally — images in history will be filtered automatically.
+5. Use Claude Code normally — images in history will be filtered automatically.
 
 ## GUI Control Panel
 
@@ -61,27 +38,23 @@ A small desktop widget for starting/stopping the proxy:
 python control.py
 ```
 
-## Environment Variables
+## config.json
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `MIMO_PROXY_PORT` | `15722` | Local port the proxy listens on |
-| `MIMO_API_BASE` | `https://token-plan-cn.xiaomimimo.com/anthropic` | Target API endpoint (see below) |
-| `MIMO_PROXY_LOG` | `./proxy.log` | Log file path |
+代理从 `config.json` 读取配置，无需设置环境变量：
 
-**`MIMO_API_BASE` — 按量付费用户需要切换：**
-
-| Subscription | Base URL |
-|---|---|
-| Token Plan (默认) | `https://token-plan-cn.xiaomimimo.com/anthropic` |
-| Pay-as-you-go | `https://api.xiaomimimo.com/anthropic` |
-
-按量付费用户启动代理时指定：
-
-```bash
-set MIMO_API_BASE=https://api.xiaomimimo.com/anthropic
-python proxy.py
+```json
+{
+  "listen_port": 15722,
+  "mimo_base": "https://token-plan-cn.xiaomimimo.com/anthropic",
+  "log_path": "./proxy.log"
+}
 ```
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `listen_port` | `15722` | 代理监听端口 |
+| `mimo_base` | Token Plan URL | Mimo API 地址，按量付费改为 `https://api.xiaomimimo.com/anthropic` |
+| `log_path` | `./proxy.log` | 日志路径 |
 
 ## How It Works
 

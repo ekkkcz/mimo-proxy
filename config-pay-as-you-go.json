@@ -1,0 +1,5 @@
+{
+  "listen_port": 15722,
+  "mimo_base": "https://api.xiaomimimo.com/anthropic",
+  "log_path": "./proxy.log"
+}

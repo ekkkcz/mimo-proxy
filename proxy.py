@@ -10,17 +10,17 @@ import ssl
 import urllib.request
 from datetime import datetime
 
-# ========== 配置 ==========
-LISTEN_PORT = int(os.environ.get("MIMO_PROXY_PORT", "15722"))
-MIMO_BASE = os.environ.get(
-    "MIMO_API_BASE",
-    "https://token-plan-cn.xiaomimimo.com/anthropic",
-)
-LOG_PATH = os.environ.get(
-    "MIMO_PROXY_LOG",
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), "proxy.log"),
-)
-# ==========================
+# ========== 从 config.json 读取配置 ==========
+_CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+_cfg = {}
+if os.path.exists(_CONFIG_PATH):
+    with open(_CONFIG_PATH, encoding="utf-8") as f:
+        _cfg = json.load(f)
+
+LISTEN_PORT = int(_cfg.get("listen_port", 15722))
+MIMO_BASE = _cfg.get("mimo_base", "https://token-plan-cn.xiaomimimo.com/anthropic")
+LOG_PATH = _cfg.get("log_path", os.path.join(os.path.dirname(os.path.abspath(__file__)), "proxy.log"))
+# ============================================
 
 
 def log(msg: str):
