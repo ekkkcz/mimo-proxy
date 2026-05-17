@@ -8,27 +8,41 @@ Mimo is a text-only model. When used with Claude Code, the history may contain i
 
 ## Quick Start
 
-1. Clone or download this repo
+### 1. Clone
 
-2. 复制对应的 `config.json`（已附带，按需替换）：
+```bash
+git clone https://github.com/YOUR_USERNAME/mimo-proxy.git
+cd mimo-proxy
+```
 
-   - **Token Plan** → 直接用默认的 [`config.json`](config.json)
-   - **按量付费** → 用 [`config-pay-as-you-go.json`](config-pay-as-you-go.json)，复制一份改名为 `config.json`
+### 2. Choose your config
 
-3. 复制对应的 Claude Code 配置到 `~/.claude/settings.json`：
+根据你的 Mimo 订阅方式选择：
 
-   - **Token Plan**：[`claude-code-settings-token-plan.json`](claude-code-settings-token-plan.json)
-   - **按量付费**：[`claude-code-settings-pay-as-you-go.json`](claude-code-settings-pay-as-you-go.json)
+| | Token Plan | 按量付费 |
+|---|---|---|
+| 代理配置 | `config.json` (默认，无需改动) | 复制 `config-pay-as-you-go.json` 改名为 `config.json` |
+| Claude Code 配置 | `claude-code-settings-token-plan.json` | `claude-code-settings-pay-as-you-go.json` |
+| API Key 格式 | `tp-xxxxx` | `sk-xxxxx` |
 
-   替换其中的 `tp-your-token-plan-key` 或 `sk-your-api-key` 为你在 [Mimo 平台](https://platform.xiaomimimo.com) 获取的 API Key。
+### 3. Set your API Key
 
-4. Start the proxy:
+> **打开你选的 `claude-code-settings-*.json`，把 `ANTHROPIC_AUTH_TOKEN` 的值替换成你自己的 Mimo API Key：**
+>
+> - Token Plan：`"ANTHROPIC_AUTH_TOKEN": "tp-your-token-plan-key"` → 改成你的 `tp-` 开头的 Key
+> - 按量付费：`"ANTHROPIC_AUTH_TOKEN": "sk-your-api-key"` → 改成你的 `sk-` 开头的 Key
+>
+> 然后复制全部内容到你的 Claude Code 配置文件 `~/.claude/settings.json`。
+
+### 4. Start proxy
 
 ```bash
 python proxy.py
 ```
 
-5. Use Claude Code normally — images in history will be filtered automatically.
+### 5. Done
+
+Use Claude Code normally — images in history will be filtered automatically.
 
 ## GUI Control Panel
 
@@ -40,7 +54,7 @@ python control.py
 
 ## config.json
 
-代理从 `config.json` 读取配置，无需设置环境变量：
+代理从 `config.json` 读取配置：
 
 ```json
 {
@@ -53,7 +67,7 @@ python control.py
 | Key | Default | Description |
 |-----|---------|-------------|
 | `listen_port` | `15722` | 代理监听端口 |
-| `mimo_base` | Token Plan URL | Mimo API 地址，按量付费改为 `https://api.xiaomimimo.com/anthropic` |
+| `mimo_base` | Token Plan URL | 按量付费改为 `https://api.xiaomimimo.com/anthropic` |
 | `log_path` | `./proxy.log` | 日志路径 |
 
 ## How It Works
