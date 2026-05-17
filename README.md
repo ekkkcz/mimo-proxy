@@ -1,6 +1,6 @@
 # mimo-proxy
 
-让纯文本模型在 Claude Code 中不再因图片报错的本地代理。
+让Mimo纯文本模型在 Claude Code 中不再因图片报错的本地代理。
 
 ## 问题
 
